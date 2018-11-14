@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search"
+        android:translationZ="2dp"
+        android:background="@color/defaultColor"
+        app:queryHint="Type to search"
+        android:visibility="gone"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="12dp"
+        android:src="@drawable/chevron_left" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/searchIc"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="14dp"
+        android:src="@drawable/magnify"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"
+        android:tint="@color/colorPrimary"/>
+
+    <include layout="@layout/float_tool_bar"/>
+
+
+
+</RelativeLayout>

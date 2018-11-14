@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph">
+
+    <fragment
+        android:id="@+id/authSplash"
+        android:name="com.hipromarketing.riviws.ui.authentication.AuthSplash"
+        android:label="auth_splash"
+        tools:layout="@layout/auth_splash" >
+        <action
+            android:id="@+id/action_authSplash_to_signUp2"
+            app:destination="@id/signUp2" />
+        <action
+            android:id="@+id/action_authSplash_to_logIn2"
+            app:destination="@id/logIn2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUp2"
+        android:name="com.hipromarketing.riviws.ui.authentication.SignUp"
+        android:label="sign_up"
+        tools:layout="@layout/sign_up" >
+        <action
+            android:id="@+id/action_signUp2_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/logIn2"
+        android:name="com.hipromarketing.riviws.ui.authentication.LogIn"
+        android:label="log_in"
+        tools:layout="@layout/log_in" >
+        <action
+            android:id="@+id/action_logIn2_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.hipromarketing.riviws.ui.Home"
+        android:label="home"
+        tools:layout="@layout/home" />
+</navigation>

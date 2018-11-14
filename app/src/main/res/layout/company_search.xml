@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.CompanySearch"
+    android:orientation="vertical">
+
+    <include layout="@layout/back_tool_bar"/>
+
+    <include layout="@layout/search_layout"
+        android:id="@+id/searchLayout" />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/companyList"
+    tools:listitem="@layout/company_item_layout"
+    android:visibility="gone" />
+
+ <RelativeLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:id="@+id/banner">
+
+     <androidx.appcompat.widget.AppCompatImageView
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:layout_gravity="center_horizontal"
+         android:src="@drawable/ic_store"
+         android:layout_centerInParent="true"
+         android:id="@+id/image"/>
+
+     <androidx.appcompat.widget.AppCompatTextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Type to search for a company"
+         android:textColor="@color/google"
+         android:layout_below="@id/image"
+         android:layout_centerInParent="true"
+         android:textSize="16sp"
+         android:layout_margin="16dp"/>
+ </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/camera"
+        android:backgroundTint="@color/white"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_gravity="center"
+        android:id="@+id/camera"/>
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.1"
+        android:hint="Enter comment"
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp"
+        android:background="@drawable/txt_background"
+        android:id="@+id/comment"/>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/send_btn"
+        android:backgroundTint="@color/white"
+        android:tint="@color/colorPrimaryDark"
+        android:layout_gravity="center"
+        android:id="@+id/send"/>
+</LinearLayout>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userProfile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/room"
+            android:transitionName="userProfile" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/userProfile"
+            android:text="Jennifer Smith"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:transitionName="userName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@+id/rating"
+            android:gravity="end"
+            android:text="3 Days Ago"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user"
+            android:layout_toEndOf="@+id/userProfile"
+            android:isIndicator="true"
+            android:theme="@style/RatingBar"
+            android:transitionName="rating"
+            android:rating="5"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@+id/userProfile"
+            android:scaleType="centerCrop"
+            android:src="@drawable/chicken" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/banner"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Red Carrot"
+            android:textColor="@color/google"
+            android:textSize="14sp" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/company"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/aweosme_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="end">
+
+            <LinearLayout
+                android:id="@+id/like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/likeIc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/heart_outline" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/likeCount"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:text="205" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/replyIc"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/reply" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/commentCount"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="205" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

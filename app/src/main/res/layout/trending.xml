@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trendLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="56dp"
+    tools:context=".ui.Trending">
+
+    <include layout="@layout/search_layout"
+        android:id="@+id/searchLayout" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:theme="@style/progressBarBlue" />
+
+
+
+ <androidx.core.widget.NestedScrollView
+     android:layout_width="match_parent"
+     android:layout_height="match_parent">
+
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_marginBottom="60dp"
+         android:layout_marginTop="60dp"
+         android:translationZ="1dp">
+
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/trendList"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layoutAnimation="@anim/layout_fall"
+             android:visibility="gone" />
+     </RelativeLayout>
+
+ </androidx.core.widget.NestedScrollView>
+
+
+</RelativeLayout>

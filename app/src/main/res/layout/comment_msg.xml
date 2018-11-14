@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/search_bg"
+    android:layout_margin="16dp"
+    android:padding="2dp"
+    android:id="@+id/commentLayout">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:hint="Type your review"
+        android:background="@drawable/search_bg"
+        android:paddingStart="8dp"
+        android:gravity="start"
+        android:paddingEnd="0dp"
+        android:id="@+id/message"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dededede" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/file_image"
+            style="@style/MediaButton"
+            android:id="@+id/preview"
+            android:tint="@color/colorPrimary"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera"
+           style="@style/MediaButton"
+            android:id="@+id/camera"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/qr"
+            style="@style/MediaButton"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gallery"
+            style="@style/MediaButton"
+            android:id="@+id/gallery"/>
+    </LinearLayout>
+
+</LinearLayout>

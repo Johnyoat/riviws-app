@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/close"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/defaultColor"
+            android:tint="@color/colorPrimaryDark"
+            android:id="@+id/close"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rate This"
+            android:layout_margin="8dp"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <com.willy.ratingbar.ScaleRatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srb_drawableEmpty="@drawable/star_gold_outline"
+        app:srb_drawableFilled="@drawable/star"
+        app:srb_starHeight="24dp"
+        app:srb_starWidth="24dp"
+        android:layout_margin="8dp"
+        android:transitionName="rating"
+        android:id="@+id/rating"/>
+
+    <include layout="@layout/respond_layout" />
+
+</LinearLayout>
