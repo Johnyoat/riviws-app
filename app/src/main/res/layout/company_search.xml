@@ -28,15 +28,15 @@
          android:layout_width="100dp"
          android:layout_height="100dp"
          android:layout_gravity="center_horizontal"
-         android:src="@drawable/ic_store"
+         android:src="@drawable/ic_search_page"
          android:layout_centerInParent="true"
          android:id="@+id/image"/>
 
      <androidx.appcompat.widget.AppCompatTextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="Type to search for a company"
-         android:textColor="@color/google"
+         android:text="Type to search for a company/product"
+         android:textColor="@color/colorPrimary"
          android:layout_below="@id/image"
          android:layout_centerInParent="true"
          android:textSize="16sp"

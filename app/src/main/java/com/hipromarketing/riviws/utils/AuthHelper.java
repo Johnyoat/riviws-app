@@ -6,9 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -73,14 +77,25 @@ public class AuthHelper {
 
 
     public void signUp(final String name, final String email, final String password) {
-        showDialog("Please wait...",false);
+        showDialog("Please wait...", false);
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-                            user.sendEmailVerification();
+
+                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(context, "Verification email sent to " + auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Log.e(TAG, "sendEmailVerification", task.getException());
+                                        Toast.makeText(context, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                             UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
                                     .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/riviwsapp.appspot.com/o/otherimages%2Fuser-2.png?alt=media&token=f3265050-1601-402d-9018-b2b1a1e31415"))
@@ -178,24 +193,6 @@ public class AuthHelper {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            auth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-                                    // Re-enable button
-
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(context,
-                                                "Verification email sent to " + auth.getCurrentUser().getEmail(),
-                                                Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Log.e(TAG, "sendEmailVerification", task.getException());
-                                        Toast.makeText(context,
-                                                "Failed to send verification email.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
                             User user = new User(Objects.requireNonNull(auth.getCurrentUser()));
 
                             user.setEmail(email);
@@ -217,7 +214,7 @@ public class AuthHelper {
 
     @SuppressWarnings("all")
     private void saveUserInfo(User user) {
-        db.collection("users").document(user.getUid()).set(new ObjectMapper().convertValue(user,Map.class))
+        db.collection("users").document(user.getUid()).set(new ObjectMapper().convertValue(user, Map.class))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -234,9 +231,9 @@ public class AuthHelper {
 
     @SuppressWarnings("all")
     private void updateUser(User user) {
-        if (user.getUserName() == null){
+        if (user.getUserName() == null) {
             userBackUp = new User(FirebaseAuth.getInstance().getCurrentUser());
-        }else {
+        } else {
             userBackUp = user;
         }
         DocumentReference userDoc = db.collection("users").document(user.getUid());
@@ -244,15 +241,14 @@ public class AuthHelper {
         userDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (!documentSnapshot.exists()){
+                if (!documentSnapshot.exists()) {
                     saveUserInfo(userBackUp);
-                }else {
+                } else {
                     success();
                 }
             }
         });
     }
-
 
 
     private void success() {
