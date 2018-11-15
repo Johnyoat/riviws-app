@@ -11,12 +11,12 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -38,6 +38,7 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -64,17 +65,17 @@ public class CategoryDetails extends DialogFragment {
     private AppBarLayout appBarToolBar;
     private BottomNavigationView bnv;
     private View foobar;
-    private String cls;
     private RecyclerView reviewList;
     private String head;
     private String field;
-    private UICreator uiCreator;
-    private LinearLayout ratingView;
     private AppCompatRatingBar ratingBar;
     private AppCompatTextView userViews;
-    private float average = 0;
     private float ratings = 0;
     private int size;
+    private AppCompatButton follow;
+    private DocumentReference userDoc;
+    private boolean following = false;
+    private String followedObj;
 
 
     public static CategoryDetails newInstance(String drawable, String head) {
@@ -140,13 +141,14 @@ public class CategoryDetails extends DialogFragment {
         AppCompatImageView navigate;
 
 
-        uiCreator = UICreator.getInstance((AppCompatActivity) getActivity());
+        UICreator uiCreator = UICreator.getInstance((AppCompatActivity) getActivity());
         uiCreator.setFRAG(R.id.homeContainer);
         searchIc = view.findViewById(R.id.searchIc);
         searchView = view.findViewById(R.id.search);
-        ratingView = view.findViewById(R.id.ratingInfo);
+        LinearLayout ratingView = view.findViewById(R.id.ratingInfo);
         ratingBar = view.findViewById(R.id.averageRating);
         userViews = view.findViewById(R.id.userviews);
+        follow = view.findViewById(R.id.follow);
 
 
         ratingView.setVisibility(View.GONE);
@@ -171,11 +173,41 @@ public class CategoryDetails extends DialogFragment {
                 assert getArguments() != null;
                 String url = getArguments().getString("locationUrl");
                 if (url != null && !url.isEmpty()) {
-//                   Intent i = new Intent(Intent.ACTION_VIEW);
-//                   i.setData(Uri.parse(url));
-//                   startActivity(i);
                     UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(ShowLocation.newInstance(getArguments().getString("lng"), getArguments().getString("lat")), "showDetails");
                 }
+            }
+        });
+
+
+        List<String> follows = getUser().getFollowing();
+
+
+        userDoc = db.collection("users").document(getUser().getUid());
+
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!following) {
+
+
+                    userDoc.update("following", FieldValue.arrayUnion(head));
+                    follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background_shaded));
+                    follow.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    follow.setText(getString(R.string.unfollow));
+                    following = true;
+                } else {
+                    if (followedObj != null) {
+
+                        userDoc.update("following", FieldValue.arrayRemove(head));
+                        follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background));
+                        follow.setTextColor(getResources().getColor(R.color.white));
+                        following = false;
+                        follow.setText(getString(R.string.follow));
+
+                    }
+                }
+
             }
         });
 
@@ -226,8 +258,8 @@ public class CategoryDetails extends DialogFragment {
         });
 
 
-        KeyboardVisibilityEvent.setEventListener(
-                getActivity(),
+        assert getActivity() != null;
+        KeyboardVisibilityEvent.setEventListener(getActivity(),
                 new KeyboardVisibilityEventListener() {
                     @Override
                     public void onVisibilityChanged(boolean isOpen) {
@@ -286,6 +318,19 @@ public class CategoryDetails extends DialogFragment {
             j++;
         }
 
+        if (follows != null) {
+            for (String fol : follows) {
+                if (fol.equalsIgnoreCase(head)) {
+                    following = true;
+//                    follow.setBackgroundColor(getResources().getColor(R.color.white));
+                    follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background_shaded));
+                    follow.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    follow.setText(R.string.unfollow);
+                    followedObj = fol;
+
+                }
+            }
+        }
 
         if (Objects.requireNonNull(args.getString("filter")).equalsIgnoreCase("company")) {
             addReview.setVisibility(View.VISIBLE);
@@ -393,24 +438,6 @@ public class CategoryDetails extends DialogFragment {
         super.onStop();
         foobar.setVisibility(View.VISIBLE);
     }
-
-
-//    void getAverageRating() {
-//        assert getArguments() != null;
-//        Company company = getArguments().getParcelable("cmp");
-//        assert company != null;
-//        db.collection("company").document(company.getCompanyID()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                if (documentSnapshot != null) {
-//                    Company cmp = documentSnapshot.toObject(Company.class);
-//                    if (cmp != null) {
-//                        ratingBar.setRating(Float.valueOf(cmp.getAverageRating()));
-//                    }
-//                }
-//            }
-//        });
-//    }
 
 
 }

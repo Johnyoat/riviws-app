@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User implements Parcelable {
     private String uid ="";
     private String userName="";
@@ -13,6 +16,7 @@ public class User implements Parcelable {
     private String profilePhotoUrl="";
     private String location="";
     private String occupation="";
+    private List<String> following = new ArrayList<>();
 
     public User(FirebaseUser user) {
         this.userName = user.getDisplayName();
@@ -54,6 +58,14 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public List<String> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<String> following) {
+        this.following = following;
+    }
 
     public String getUid() {
         return uid;
@@ -112,19 +124,20 @@ public class User implements Parcelable {
         this.occupation = occupation;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(uid);
-        parcel.writeString(userName);
-        parcel.writeString(email);
-        parcel.writeString(phoneNumber);
-        parcel.writeString(profilePhotoUrl);
-        parcel.writeString(location);
-        parcel.writeString(occupation);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(uid);
+        dest.writeString(userName);
+        dest.writeString(email);
+        dest.writeString(phoneNumber);
+        dest.writeString(profilePhotoUrl);
+        dest.writeString(location);
+        dest.writeString(occupation);
     }
 }

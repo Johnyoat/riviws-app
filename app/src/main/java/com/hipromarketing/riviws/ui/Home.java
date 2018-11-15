@@ -146,23 +146,23 @@ public class Home extends Fragment {
         categories.add(new Category(EDUCATION, R.drawable.student_boy));
         categories.add(new Category(AUTO_MOBILE, R.drawable.whitecar));
         categories.add(new Category(TRAVELS, R.drawable.bridge));
-        categories.add(new Category(COSMETICS, R.drawable.bridge));
-        categories.add(new Category(FOOD_AND_DRINK, R.drawable.bridge));
-        categories.add(new Category(NIGHT_LIFE, R.drawable.bridge));
-        categories.add(new Category(SHOPPING, R.drawable.bridge));
-        categories.add(new Category(HEALTH_AND_MEDICAL, R.drawable.bridge));
-        categories.add(new Category(BEAUTY_AND_SPA, R.drawable.bridge));
-        categories.add(new Category(HOME_AND_SERVICES, R.drawable.bridge));
-        categories.add(new Category(LOCAL_JOINT, R.drawable.bridge));
-        categories.add(new Category(LOCAL_SERVICES, R.drawable.bridge));
-        categories.add(new Category(ENTERTAINMENT, R.drawable.bridge));
-        categories.add(new Category(REAL_ESTATE, R.drawable.bridge));
-        categories.add(new Category(FINANCIAL_SERVICE, R.drawable.bridge));
-        categories.add(new Category(PUBLIC_INST, R.drawable.bridge));
-        categories.add(new Category(MASS_MEDIA, R.drawable.bridge));
-        categories.add(new Category(RELIGION, R.drawable.bridge));
-        categories.add(new Category(BARS, R.drawable.bridge));
-        categories.add(new Category(PLACES, R.drawable.bridge));
+        categories.add(new Category(COSMETICS, R.drawable.cosmetics));
+        categories.add(new Category(FOOD_AND_DRINK, R.drawable.food_and_drinks));
+        categories.add(new Category(NIGHT_LIFE, R.drawable.night_life));
+        categories.add(new Category(SHOPPING, R.drawable.shopping));
+        categories.add(new Category(HEALTH_AND_MEDICAL, R.drawable.health_and_medical));
+        categories.add(new Category(BEAUTY_AND_SPA, R.drawable.beauty_and_spa));
+        categories.add(new Category(HOME_AND_SERVICES, R.drawable.home_and_services));
+        categories.add(new Category(LOCAL_JOINT, R.drawable.local_joint));
+        categories.add(new Category(LOCAL_SERVICES, R.drawable.local_business));
+        categories.add(new Category(ENTERTAINMENT, R.drawable.entertainment));
+        categories.add(new Category(REAL_ESTATE, R.drawable.real_estate));
+        categories.add(new Category(FINANCIAL_SERVICE, R.drawable.financial_service));
+        categories.add(new Category(PUBLIC_INST, R.drawable.public_institution));
+        categories.add(new Category(MASS_MEDIA, R.drawable.mass_media));
+        categories.add(new Category(RELIGION, R.drawable.spirituality));
+        categories.add(new Category(BARS, R.drawable.bars));
+        categories.add(new Category(PLACES, R.drawable.places));
 
 
 

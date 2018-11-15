@@ -136,4 +136,6 @@
     <string name="cancel">Cancel</string>
     <string name="verifiy">Verify</string>
     <string name="acc_verification_message">Account has not been verfied</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 </resources>

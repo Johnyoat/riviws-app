@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.CompanySearch"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.CompanySearch">
 
-    <include layout="@layout/back_tool_bar"/>
+    <include layout="@layout/back_tool_bar" />
 
-    <include layout="@layout/search_layout"
-        android:id="@+id/searchLayout" />
+    <include
+        android:id="@+id/searchLayout"
+        layout="@layout/search_layout" />
 
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/companyList"
-    tools:listitem="@layout/company_item_layout"
-    android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/companyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:listitem="@layout/company_item_layout" />
 
- <RelativeLayout
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:id="@+id/banner">
+    <RelativeLayout
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="106dp">
 
-     <androidx.appcompat.widget.AppCompatImageView
-         android:layout_width="100dp"
-         android:layout_height="100dp"
-         android:layout_gravity="center_horizontal"
-         android:src="@drawable/ic_search_page"
-         android:layout_centerInParent="true"
-         android:id="@+id/image"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_search_page"/>
 
-     <androidx.appcompat.widget.AppCompatTextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="Type to search for a company/product"
-         android:textColor="@color/colorPrimary"
-         android:layout_below="@id/image"
-         android:layout_centerInParent="true"
-         android:textSize="16sp"
-         android:layout_margin="16dp"/>
- </RelativeLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_centerInParent="true"
+            android:layout_margin="16dp"
+            android:text="Type to search for a company/product"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"/>
+    </RelativeLayout>
 
 </LinearLayout>

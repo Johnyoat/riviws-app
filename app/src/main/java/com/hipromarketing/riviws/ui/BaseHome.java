@@ -4,6 +4,7 @@ package com.hipromarketing.riviws.ui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -90,6 +91,10 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
 
 
         showWelcomeScreen();
+        // ATTENTION: This was auto-generated to handle app links.
+//        Intent appLinkIntent = getIntent();
+//        String appLinkAction = appLinkIntent.getAction();
+//        Uri appLinkData = appLinkIntent.getData();
     }
 
 
