@@ -129,6 +129,8 @@
                                android:layout_marginBottom="0dp"
                                android:layout_marginTop="4dp"
                                android:id="@+id/follow"
+                               android:textColor="@color/colorPrimary"
+                               android:background="@drawable/btn_background_shaded"
                                />
                        </LinearLayout>
 

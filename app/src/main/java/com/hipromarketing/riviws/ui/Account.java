@@ -47,15 +47,12 @@ public class Account extends DialogFragment {
     private ListenerRegistration listenerRegistration;
     private User fireUser;
     private AppCompatTextView reviews;
-    private LinearLayout getReviews;
     private AppCompatTextView location;
     private AppCompatTextView occupation;
-    private AppCompatButton editProfile;
-    private AppCompatButton logout;
     private CircleImageView profileImage;
     private AppCompatTextView username;
-    LinearLayout notifications;
-    AppCompatTextView notificationsNumber;
+    private AppCompatTextView notificationsNumber;
+    private AppCompatTextView followings;
 
     public static Account newInstance() {
 
@@ -83,18 +80,16 @@ public class Account extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         username = view.findViewById(R.id.user);
         profileImage = view.findViewById(R.id.profilePicture);
-        logout = view.findViewById(R.id.logOut);
-        editProfile = view.findViewById(R.id.editProfile);
+        AppCompatButton logout = view.findViewById(R.id.logOut);
+        AppCompatButton editProfile = view.findViewById(R.id.editProfile);
         occupation = view.findViewById(R.id.occupation);
         location = view.findViewById(R.id.location);
-        notifications = view.findViewById(R.id.notifications);
+        followings = view.findViewById(R.id.followings);
 
         reviews = view.findViewById(R.id.reviews);
-        getReviews = view.findViewById(R.id.getReviews);
         notificationsNumber = view.findViewById(R.id.notificationsNumber);
 
-
-        getReviews.setOnClickListener(new View.OnClickListener() {
+        reviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(Trending.newInstance("user_filter"), "filtered");
@@ -117,8 +112,7 @@ public class Account extends DialogFragment {
             }
         });
 
-
-        notifications.setOnClickListener(new View.OnClickListener() {
+        notificationsNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(NotificationPage.newInstance(), "notification");
@@ -156,12 +150,15 @@ public class Account extends DialogFragment {
                     if (fireUser != null) {
                         username.setText(fireUser.getUserName());
                         Glide.with(getContext()).load(fireUser.getProfilePhotoUrl()).into(profileImage);
-                        occupation.setText(fireUser.getOccupation());
-                        location.setText(fireUser.getLocation());
+                        hideViewIfTextIsEmpty(fireUser.getLocation(),location);
+                        hideViewIfTextIsEmpty(fireUser.getOccupation(),occupation);
+                        followings.setText(fireUser.getFollowing().size()+ " followings");
                     }
                 }
             }
         });
+
+
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,6 +169,15 @@ public class Account extends DialogFragment {
             }
         });
 
+    }
+
+    void hideViewIfTextIsEmpty(String text,AppCompatTextView view){
+        if (text.isEmpty()){
+            view.setVisibility(View.GONE);
+        }else {
+            view.setVisibility(View.VISIBLE);
+            view.setText(text);
+        }
     }
 
     private void finishUp() {
@@ -187,11 +193,11 @@ public class Account extends DialogFragment {
 
         for (Statistics st : stats) {
             if (st.getReviews().equals("")) {
-                notificationsNumber.setText(st.getNotifications());
+                notificationsNumber.setText(st.getNotifications()+" Notifications");
             }
 
             if (st.getNotifications().equals("")) {
-                reviews.setText(st.getReviews());
+                reviews.setText(st.getReviews()+" Reviews");
             }
         }
     }

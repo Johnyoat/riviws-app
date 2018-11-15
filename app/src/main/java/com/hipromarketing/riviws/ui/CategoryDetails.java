@@ -189,19 +189,21 @@ public class CategoryDetails extends DialogFragment {
             public void onClick(View v) {
 
                 if (!following) {
-
+                    follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background));
+                    follow.setTextColor(getResources().getColor(R.color.white));
 
                     userDoc.update("following", FieldValue.arrayUnion(head));
-                    follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background_shaded));
-                    follow.setTextColor(getResources().getColor(R.color.colorPrimary));
+
                     follow.setText(getString(R.string.unfollow));
                     following = true;
                 } else {
                     if (followedObj != null) {
 
                         userDoc.update("following", FieldValue.arrayRemove(head));
-                        follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background));
-                        follow.setTextColor(getResources().getColor(R.color.white));
+
+
+                        follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background_shaded));
+                        follow.setTextColor(getResources().getColor(R.color.colorPrimary));
                         following = false;
                         follow.setText(getString(R.string.follow));
 
@@ -322,9 +324,8 @@ public class CategoryDetails extends DialogFragment {
             for (String fol : follows) {
                 if (fol.equalsIgnoreCase(head)) {
                     following = true;
-//                    follow.setBackgroundColor(getResources().getColor(R.color.white));
-                    follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background_shaded));
-                    follow.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    follow.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_background));
+                    follow.setTextColor(getResources().getColor(R.color.white));
                     follow.setText(R.string.unfollow);
                     followedObj = fol;
 
@@ -356,6 +357,7 @@ public class CategoryDetails extends DialogFragment {
             field = "company.category";
             loadData();
             banner.setImageDrawable(getActivity().getResources().getDrawable(Integer.valueOf(args.getString("banner"))));
+            follow.setVisibility(View.GONE);
 
             addReview.setOnClickListener(new View.OnClickListener() {
                 @Override
