@@ -357,7 +357,7 @@ public class CategoryDetails extends DialogFragment {
             field = "company.category";
             loadData();
             banner.setImageDrawable(getActivity().getResources().getDrawable(Integer.valueOf(args.getString("banner"))));
-            follow.setVisibility(View.GONE);
+
 
             addReview.setOnClickListener(new View.OnClickListener() {
                 @Override

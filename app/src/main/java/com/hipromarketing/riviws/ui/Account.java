@@ -43,7 +43,6 @@ public class Account extends DialogFragment {
     private Realm realm = Realm.getDefaultInstance();
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference ref;
     private ListenerRegistration listenerRegistration;
     private User fireUser;
     private AppCompatTextView reviews;
@@ -53,6 +52,7 @@ public class Account extends DialogFragment {
     private AppCompatTextView username;
     private AppCompatTextView notificationsNumber;
     private AppCompatTextView followings;
+    private String uid;
 
     public static Account newInstance() {
 
@@ -85,16 +85,28 @@ public class Account extends DialogFragment {
         occupation = view.findViewById(R.id.occupation);
         location = view.findViewById(R.id.location);
         followings = view.findViewById(R.id.followings);
+        LinearLayout getNotifications = view.findViewById(R.id.getNotificationsPage);
+        LinearLayout getReviews = view.findViewById(R.id.getReviewsPage);
+        LinearLayout getFollowingsPage = view.findViewById(R.id.getFollowingsPage);
 
         reviews = view.findViewById(R.id.reviews);
         notificationsNumber = view.findViewById(R.id.notificationsNumber);
 
-        reviews.setOnClickListener(new View.OnClickListener() {
+        getReviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(Trending.newInstance("user_filter"), "filtered");
             }
         });
+
+        getFollowingsPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(Following.newInstance(), "followings");
+            }
+        });
+
+
 
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -112,7 +124,7 @@ public class Account extends DialogFragment {
             }
         });
 
-        notificationsNumber.setOnClickListener(new View.OnClickListener() {
+       getNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(NotificationPage.newInstance(), "notification");
@@ -140,7 +152,7 @@ public class Account extends DialogFragment {
         assert getContext() != null;
         Glide.with(getContext()).load(user.getPhotoUrl()).into(profileImage);
 
-        ref = db.collection("users").document(firebaseUser.getUid());
+        DocumentReference ref = db.collection("users").document(firebaseUser.getUid());
 
         listenerRegistration = ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -152,7 +164,7 @@ public class Account extends DialogFragment {
                         Glide.with(getContext()).load(fireUser.getProfilePhotoUrl()).into(profileImage);
                         hideViewIfTextIsEmpty(fireUser.getLocation(),location);
                         hideViewIfTextIsEmpty(fireUser.getOccupation(),occupation);
-                        followings.setText(fireUser.getFollowing().size()+ " followings");
+                        followings.setText(String.valueOf(fireUser.getFollowing().size()));
                     }
                 }
             }
@@ -171,7 +183,7 @@ public class Account extends DialogFragment {
 
     }
 
-    void hideViewIfTextIsEmpty(String text,AppCompatTextView view){
+   private void hideViewIfTextIsEmpty(String text,AppCompatTextView view){
         if (text.isEmpty()){
             view.setVisibility(View.GONE);
         }else {
@@ -187,17 +199,18 @@ public class Account extends DialogFragment {
         getActivity().finish();
     }
 
+    @SuppressWarnings("all")
     private void getStatsFromRealm(@NonNull Realm realm) {
 
         List<Statistics> stats = realm.where(Statistics.class).findAll();
 
         for (Statistics st : stats) {
             if (st.getReviews().equals("")) {
-                notificationsNumber.setText(st.getNotifications()+" Notifications");
+                notificationsNumber.setText(st.getNotifications());
             }
 
             if (st.getNotifications().equals("")) {
-                reviews.setText(st.getReviews()+" Reviews");
+                reviews.setText(st.getReviews());
             }
         }
     }

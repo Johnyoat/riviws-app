@@ -12,212 +12,227 @@
     android:gravity="center">
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/account_body"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="-32dp"
-        android:translationZ="3dp"
-        android:layout_marginEnd="32dp"
-        android:orientation="horizontal"
-        android:id="@+id/account_head">
+   <androidx.core.widget.NestedScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:layout_marginTop="-30dp">
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_above="@id/account_body"
+               android:layout_marginStart="48dp"
+               android:layout_marginBottom="-32dp"
+               android:translationZ="3dp"
+               android:layout_marginEnd="32dp"
+               android:orientation="horizontal"
+               android:id="@+id/account_head">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profilePicture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@color/white"
-            app:civ_border_color="@color/colorPrimary"
-            app:civ_border_width="3dp" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="32dp">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+               <de.hdodenhof.circleimageview.CircleImageView
+                   android:id="@+id/profilePicture"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:src="@color/white"
+                   app:civ_border_color="@color/colorPrimary"
+                   app:civ_border_width="3dp" />
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_marginStart="4dp"
+                   android:layout_marginTop="8dp"
+                   android:gravity="center_vertical"
+                   android:layout_marginBottom="32dp">
+                   <androidx.appcompat.widget.AppCompatTextView
+                       android:id="@+id/user"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="@string/loading"
+                       android:textColor="@color/colorPrimary"
+                       android:textSize="16sp"
+                       android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/occupation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="loading"
-                android:textColor="#999999"
-                android:textSize="14sp"/>
+                   <androidx.appcompat.widget.AppCompatTextView
+                       android:id="@+id/occupation"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="loading"
+                       android:textColor="#999999"
+                       android:textSize="14sp"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="loading"
-                android:textColor="#999999"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
+                   <androidx.appcompat.widget.AppCompatTextView
+                       android:id="@+id/location"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="loading"
+                       android:textColor="#999999"
+                       android:textSize="12sp" />
+               </LinearLayout>
+           </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/account_body"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/account_bg">
+           <RelativeLayout
+               android:id="@+id/account_body"
+               android:layout_width="match_parent"
+               android:layout_height="350dp"
+               android:layout_centerInParent="true"
+               android:layout_marginStart="32dp"
+               android:layout_marginEnd="32dp"
+               android:background="@drawable/account_bg">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="0dp">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_marginTop="0dp">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="64dp"
-                android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:text="0"
-                    android:textColor="@color/colorPrimary"
-                    android:id="@+id/reviews"
-                    android:background="@drawable/circle"
-                    android:gravity="center"
-                    android:backgroundTint="@color/grey"/>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="24dp"
+                       android:layout_marginTop="64dp"
+                       android:orientation="horizontal"
+                       android:id="@+id/getReviewsPage">
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:text="0"
+                           android:textColor="@color/colorPrimary"
+                           android:id="@+id/reviews"
+                           android:background="@drawable/circle"
+                           android:gravity="center"
+                           android:backgroundTint="@color/grey"/>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" 
-                    android:text="Reviews"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="8dp"/>
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Reviews"
+                           android:textColor="@color/white"
+                           android:layout_marginStart="8dp"/>
 
-            </LinearLayout>
+                   </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="@color/colorPrimaryDarkOld" />
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"
+                       android:layout_margin="16dp"
+                       android:background="@color/colorPrimaryDarkOld" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:text="0"
-                    android:textColor="@color/colorPrimary"
-                    android:id="@+id/notificationsNumber"
-                    android:background="@drawable/circle"
-                    android:gravity="center"
-                    android:backgroundTint="@color/grey"/>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Notifications"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="8dp"/>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="24dp"
+                       android:orientation="horizontal"
+                       android:id="@+id/getNotificationsPage">
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:text="0"
+                           android:textColor="@color/colorPrimary"
+                           android:id="@+id/notificationsNumber"
+                           android:background="@drawable/circle"
+                           android:gravity="center"
+                           android:backgroundTint="@color/grey"/>
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Notifications"
+                           android:textColor="@color/white"
+                           android:layout_marginStart="8dp"/>
 
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="@color/colorPrimaryDarkOld" />
+                   </LinearLayout>
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"
+                       android:layout_margin="16dp"
+                       android:background="@color/colorPrimaryDarkOld" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:text="0"
-                    android:textColor="@color/colorPrimary"
-                    android:id="@+id/followings"
-                    android:background="@drawable/circle"
-                    android:gravity="center"
-                    android:backgroundTint="@color/grey"/>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Followings"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="8dp"/>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="24dp"
+                       android:orientation="horizontal"
+                       android:id="@+id/getFollowingsPage">
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:text="0"
+                           android:textColor="@color/colorPrimary"
+                           android:id="@+id/followings"
+                           android:background="@drawable/circle"
+                           android:gravity="center"
+                           android:backgroundTint="@color/grey"/>
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:text="Followings"
+                           android:textColor="@color/white"
+                           android:layout_marginStart="8dp"/>
 
-            </LinearLayout>
-            
+                   </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="@color/colorPrimaryDarkOld" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.1"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/account_bottom_shape"
-                android:orientation="horizontal"
-                android:gravity="bottom">
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"
+                       android:layout_margin="16dp"
+                       android:background="@color/colorPrimaryDarkOld" />
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_weight="0.1"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/editProfile"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_weight="0.1"
-                    android:backgroundTint="@color/colorPrimaryDark"
-                    android:drawableStart="@drawable/account_edit"
-                    android:drawablePadding="-25dp"
-                    android:paddingStart="30dp"
-                    android:text="@string/edit"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="32dp"
+                       android:background="@drawable/account_bottom_shape"
+                       android:orientation="horizontal"
+                       android:gravity="bottom">
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:background="@color/colorPrimary" />
+                       <androidx.appcompat.widget.AppCompatButton
+                           android:id="@+id/editProfile"
+                           style="?android:attr/borderlessButtonStyle"
+                           android:layout_width="match_parent"
+                           android:layout_height="36dp"
+                           android:layout_weight="0.1"
+                           android:backgroundTint="@color/colorPrimaryDark"
+                           android:drawableStart="@drawable/account_edit"
+                           android:drawablePadding="-25dp"
+                           android:paddingStart="30dp"
+                           android:text="@string/edit"
+                           android:textColor="@color/colorPrimary"
+                           android:textSize="12sp"
+                           android:gravity="center"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/logOut"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_toEndOf="@id/editProfile"
-                    android:layout_weight="0.1"
-                    android:drawableStart="@drawable/logout"
-                    android:drawablePadding="-30dp"
-                    android:text="@string/log_out"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
+                       <View
+                           android:layout_width="1dp"
+                           android:layout_height="match_parent"
+                           android:layout_margin="4dp"
+                           android:background="@color/colorPrimary" />
 
-    </RelativeLayout>
+                       <androidx.appcompat.widget.AppCompatButton
+                           android:id="@+id/logOut"
+                           style="?android:attr/borderlessButtonStyle"
+                           android:layout_width="match_parent"
+                           android:layout_height="36dp"
+                           android:layout_toEndOf="@id/editProfile"
+                           android:layout_weight="0.1"
+                           android:drawableStart="@drawable/logout"
+                           android:drawablePadding="-30dp"
+                           android:text="@string/log_out"
+                           android:textColor="@color/colorPrimary"
+                           android:textSize="12sp" />
+                   </LinearLayout>
+               </LinearLayout>
+
+           </RelativeLayout>
+       </LinearLayout>
+   </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

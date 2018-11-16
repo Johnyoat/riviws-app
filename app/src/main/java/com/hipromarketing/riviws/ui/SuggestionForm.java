@@ -3,11 +3,6 @@ package com.hipromarketing.riviws.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatCheckBox;
-import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,6 +18,11 @@ import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,7 +108,10 @@ public class SuggestionForm extends DialogFragment {
 
                     db.collection("suggestions").add(sug);
                     Toast.makeText(getContext(), "Thank you", Toast.LENGTH_SHORT).show();
-                    dismissAllowingStateLoss();
+
+                    resetForm(name,location,business,contact);
+                    clearView(nameLayout,contactLayout,locationLayout,businessLayout);
+
                 }
             }
         });
@@ -116,7 +119,22 @@ public class SuggestionForm extends DialogFragment {
 
     }
 
-    void validateTextWhilesTyping(AppCompatEditText editText, final View view) {
+
+    private void resetForm(AppCompatEditText...editTexts){
+        for (AppCompatEditText editText: editTexts){
+            editText.setText("");
+            editText.setError(null);
+        }
+        owner.toggle();
+    }
+
+    private void clearView(View...views){
+        for (View view: views){
+            view.setBackground(getResources().getDrawable(R.drawable.curvy_edit_text));
+        }
+    }
+
+  private void validateTextWhilesTyping(AppCompatEditText editText, final View view) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -126,9 +144,9 @@ public class SuggestionForm extends DialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().length() < 2) {
-                    view.setBackground(getActivity().getDrawable(R.drawable.error_bg));
+                    view.setBackground(getResources().getDrawable(R.drawable.error_bg));
                 } else {
-                    view.setBackground(getActivity().getDrawable(R.drawable.curvy_edit_text));
+                    view.setBackground(getResources().getDrawable(R.drawable.curvy_edit_text));
                 }
             }
 
@@ -139,13 +157,12 @@ public class SuggestionForm extends DialogFragment {
         });
     }
 
-    boolean validateText(AppCompatEditText editText, View view) {
+    private boolean validateText(AppCompatEditText editText, View view) {
         boolean valid = true;
         if (editText.getText().toString().isEmpty()) {
-            view.setBackground(getActivity().getDrawable(R.drawable.error_bg));
+            view.setBackground(getResources().getDrawable(R.drawable.error_bg));
             valid = false;
         }
-
         return valid;
     }
 }
