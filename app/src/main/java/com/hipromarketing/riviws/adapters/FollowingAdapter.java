@@ -6,11 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hipromarketing.riviws.R;
+import com.hipromarketing.riviws.models.Follow;
+import com.hipromarketing.riviws.ui.CategoryDetails;
+import com.hipromarketing.riviws.utils.UICreator;
 
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,18 +25,19 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.FollowViewHolder> {
-    //    private AppCompatActivity activity;
+    private AppCompatActivity activity;
     private Context context;
-    private List<String> followings;
+    private List<Follow> followings;
     private boolean enabled = true;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String uid;
 
 
-    public FollowingAdapter(Context context, List<String> followings, String uid) {
+    public FollowingAdapter(AppCompatActivity activity, Context context, List<Follow> followings, String uid) {
         this.context = context;
         this.followings = followings;
         this.uid = uid;
+        this.activity = activity;
     }
 
     @NonNull
@@ -42,27 +48,42 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Foll
 
     @Override
     public void onBindViewHolder(@NonNull FollowViewHolder holder, int position) {
-        final String followTag = followings.get(position);
-        holder.productCompany.setText(followTag);
+        final Follow followTag = followings.get(position);
+        holder.productCompany.setText(followTag.getFollowTag());
 
         holder.notificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (enabled) {
+                if (followTag.isNotification()) {
                     Glide.with(context).load(R.drawable.bell).into((AppCompatImageView) v);
-                    enabled = false;
+                    followTag.setNotification(false);
+                    db.collection("users").document(uid).collection("following").document(followTag.getId()).update(new ObjectMapper().convertValue(followTag, Map.class));
                 } else {
                     Glide.with(context).load(R.drawable.bell_ring).into((AppCompatImageView) v);
-                    enabled = true;
+                    followTag.setNotification(true);
+                    db.collection("users").document(uid).collection("following").document(followTag.getId()).update(new ObjectMapper().convertValue(followTag, Map.class));
                 }
             }
         });
+
+        holder.productCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UICreator.getInstance(activity).createDialog(CategoryDetails.newInstance(followTag.getFollowTag(),followTag.isFromCompany()),"catDetailsFromFollowing");
+            }
+        });
+
+        if (followTag.isNotification()) {
+            Glide.with(context).load(R.drawable.bell_ring).into(holder.notificationBtn);
+        } else {
+            Glide.with(context).load(R.drawable.bell).into(holder.notificationBtn);
+        }
 
 
         holder.unfollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.collection("users").document(uid).update("following", FieldValue.arrayRemove(followTag));
+                db.collection("users").document(uid).collection("following").document(followTag.getId()).delete();
             }
         });
     }
@@ -77,7 +98,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.Foll
         AppCompatTextView productCompany;
         AppCompatButton unfollow;
 
-        public FollowViewHolder(@NonNull View itemView) {
+        private FollowViewHolder(@NonNull View itemView) {
             super(itemView);
             notificationBtn = itemView.findViewById(R.id.notificationBtn);
             productCompany = itemView.findViewById(R.id.productCompany);

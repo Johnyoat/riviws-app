@@ -217,7 +217,7 @@ public class TrendAdapter extends RecyclerView.Adapter<TrendAdapter.TrendViewHol
         View bnv = activity.findViewById(R.id.btnNav);
         bnv.setVisibility(View.GONE);
 
-        UICreator.getInstance(activity).createDialog(CommentDetails.newInstance(trend), "trend");
+        UICreator.getInstance(activity).createDialog(CommentDetails.newInstance(trend.getId()), "trend");
     }
 
 

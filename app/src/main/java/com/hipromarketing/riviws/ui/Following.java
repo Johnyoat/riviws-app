@@ -13,12 +13,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hipromarketing.riviws.R;
 import com.hipromarketing.riviws.adapters.FollowingAdapter;
+import com.hipromarketing.riviws.models.Follow;
 import com.hipromarketing.riviws.models.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,18 +65,33 @@ public class Following extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         followingList = view.findViewById(R.id.followingList);
         followingList.setLayoutManager(new LinearLayoutManager(getContext()));
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        assert  user != null;
-        db.collection("users").document(user.getUid()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        AppCompatImageView bck = view.findViewById(R.id.back);
+
+
+        bck.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot != null){
-                    User user = documentSnapshot.toObject(User.class);
-                    if (user != null) {
-                        adapter = new FollowingAdapter(getContext(),user.getFollowing(),user.getUid());
-                        followingList.setAdapter(adapter);
+            public void onClick(View v) {
+                dismissAllowingStateLoss();
+            }
+        });
+
+        assert  user != null;
+        db.collection("users").document(user.getUid()).collection("following").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                List<Follow> follows = new ArrayList<>();
+                if (queryDocumentSnapshots != null) {
+                    for (DocumentSnapshot snap : queryDocumentSnapshots) {
+                        if (snap != null){
+                            follows.add(snap.toObject(Follow.class));
+                        }
                     }
+                    adapter = new FollowingAdapter((AppCompatActivity) getActivity(), getContext(),follows,user.getUid());
+                    followingList.setAdapter(adapter);
                 }
+
             }
         });
     }

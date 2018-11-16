@@ -117,7 +117,8 @@
                                android:text="Page Title"
                                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                                android:textColor="@color/white"
-                               android:transitionName="category" />
+                               android:transitionName="category"
+                               android:textSize="14sp"/>
                            <androidx.appcompat.widget.AppCompatButton
                                android:layout_width="wrap_content"
                                android:layout_height="24dp"

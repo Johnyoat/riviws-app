@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,26 +57,23 @@ import static com.hipromarketing.riviws.utils.KeyBoardHandler.hideKeyboard;
 public class CommentDetails extends DialogFragment {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private View navigationBtn;
-    private LinearLayout profileInfo;
     private Trend trend;
     private AppCompatTextView likesCount;
     private AppCompatTextView likesMessage;
     private AppCompatImageView likeIc;
     private AppCompatEditText comment;
     private RecyclerView replyList;
-    boolean[] like = {false};
+    private boolean[] like = {false};
     String id;
-    AppCompatImageView bck;
-    AppCompatImageView imageView;
-    AppCompatTextView message;
-    AppCompatTextView user;
-    AppCompatTextView company;
-    CircleImageView userProfile;
-    ScaleRatingBar rating;
-    AppCompatImageButton send;
-    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    ProgressBar progressBar;
-    LinearLayout body;
+    private AppCompatImageView imageView;
+    private AppCompatTextView message;
+    private AppCompatTextView user;
+    private AppCompatTextView company;
+    private CircleImageView userProfile;
+    private ScaleRatingBar rating;
+    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    private ProgressBar progressBar;
+    private LinearLayout body;
 
     public static CommentDetails newInstance(String id) {
         Bundle args = new Bundle();
@@ -85,15 +83,6 @@ public class CommentDetails extends DialogFragment {
         return fragment;
     }
 
-    public static CommentDetails newInstance(Trend trend) {
-
-        Bundle args = new Bundle();
-
-        CommentDetails fragment = new CommentDetails();
-        args.putParcelable("trend", trend);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
 
     public CommentDetails() {
@@ -111,20 +100,20 @@ public class CommentDetails extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        bck = view.findViewById(R.id.back);
+        AppCompatImageView bck = view.findViewById(R.id.back);
         imageView = view.findViewById(R.id.banner);
         message = view.findViewById(R.id.message);
         user = view.findViewById(R.id.user);
         company = view.findViewById(R.id.company);
         userProfile = view.findViewById(R.id.userProfile);
         rating = view.findViewById(R.id.rating);
-        send = view.findViewById(R.id.send);
+        AppCompatImageButton send = view.findViewById(R.id.send);
         likesCount = view.findViewById(R.id.likesCount);
         likesMessage = view.findViewById(R.id.likesMessage);
         comment = view.findViewById(R.id.comment);
         replyList = view.findViewById(R.id.replies);
         navigationBtn = getActivity().findViewById(R.id.btnNav);
-        profileInfo = view.findViewById(R.id.profileInfo);
+        LinearLayout profileInfo = view.findViewById(R.id.profileInfo);
         likeIc = view.findViewById(R.id.likeIc);
         progressBar = view.findViewById(R.id.progress);
         body = view.findViewById(R.id.body);
@@ -133,7 +122,7 @@ public class CommentDetails extends DialogFragment {
 
 
         if (getArguments() != null) {
-            trend = getArguments().getParcelable("trend");
+//            trend = getArguments().getParcelable("trend");
             id = getArguments().getString("id");
         }
 
@@ -142,15 +131,14 @@ public class CommentDetails extends DialogFragment {
 
         navigationBtn.setVisibility(View.GONE);
 
-        if (getArguments() != null && trend != null) {
-
-            setUpTrend(trend);
-            setUpPageWithTrend(trend.getId());
-
-        } else if (id != null) {
-            progressBar.setVisibility(View.GONE);
-            body.setVisibility(View.VISIBLE);
-            setUpPageWithTrend(id);
+//        if (getArguments() != null && trend != null) {
+//
+//            setUpTrend(trend);
+//            setUpPageWithTrend(trend.getId());
+//
+//        } else
+        if (id != null) {
+            setUpPageWithTrend(id.trim());
         }
 
 
@@ -197,7 +185,7 @@ public class CommentDetails extends DialogFragment {
 
                     db.collection("riviws").document(trend.getId()).update("replies", FieldValue.arrayUnion(replies));
                     comment.setText("");
-                    hideKeyboard(getContext(),view);
+                    hideKeyboard(getContext(), view);
 
                     navigationBtn.setVisibility(View.VISIBLE);
                 }
@@ -220,7 +208,6 @@ public class CommentDetails extends DialogFragment {
             public void onClick(View view) {
 
                 UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(ProfileDetails.newInstance(trend.getUser()), "acc");
-//              UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(details, "categoryDetails");
             }
         });
     }
@@ -257,10 +244,11 @@ public class CommentDetails extends DialogFragment {
                 .document(id).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (documentSnapshot != null) {
+                if (documentSnapshot != null && isAdded()) {
                     Trend td = documentSnapshot.toObject(Trend.class);
-                    if (td != null && isVisible()) {
+                    if (td != null) {
                         setUpTrend(td);
+                        trend = td;
                         likesCount.setText(String.valueOf(td.getLikes().size()));
                         Collections.reverse(td.getReplies());
                         updateRecycler(replyList, td.getReplies());
@@ -269,6 +257,11 @@ public class CommentDetails extends DialogFragment {
                         } else {
                             likesMessage.setText("Like");
                         }
+                        progressBar.setVisibility(View.GONE);
+                        body.setVisibility(View.VISIBLE);
+                    } else {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "Error Loading", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

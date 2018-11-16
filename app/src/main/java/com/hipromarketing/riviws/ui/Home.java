@@ -3,13 +3,6 @@ package com.hipromarketing.riviws.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,45 +16,23 @@ import com.glide.slider.library.SliderTypes.TextSliderView;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.hipromarketing.riviws.R;
 import com.hipromarketing.riviws.adapters.CategoriesAdapter;
-import com.hipromarketing.riviws.models.Category;
 import com.hipromarketing.riviws.models.Video;
 import com.hipromarketing.riviws.utils.UICreator;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
-import static com.hipromarketing.riviws.constants.Constants.AUTO_MOBILE;
-import static com.hipromarketing.riviws.constants.Constants.BARS;
-import static com.hipromarketing.riviws.constants.Constants.BEAUTY_AND_SPA;
-import static com.hipromarketing.riviws.constants.Constants.COSMETICS;
-import static com.hipromarketing.riviws.constants.Constants.EDUCATION;
-import static com.hipromarketing.riviws.constants.Constants.ENTERTAINMENT;
-import static com.hipromarketing.riviws.constants.Constants.FASHION;
-import static com.hipromarketing.riviws.constants.Constants.FINANCIAL_SERVICE;
-import static com.hipromarketing.riviws.constants.Constants.FOOD_AND_DRINK;
-import static com.hipromarketing.riviws.constants.Constants.HEALTH;
-import static com.hipromarketing.riviws.constants.Constants.HEALTH_AND_MEDICAL;
-import static com.hipromarketing.riviws.constants.Constants.HOME_AND_SERVICES;
-import static com.hipromarketing.riviws.constants.Constants.HOTELS;
-import static com.hipromarketing.riviws.constants.Constants.LOCAL_JOINT;
-import static com.hipromarketing.riviws.constants.Constants.LOCAL_SERVICES;
-import static com.hipromarketing.riviws.constants.Constants.MASS_MEDIA;
-import static com.hipromarketing.riviws.constants.Constants.NETWORK;
-import static com.hipromarketing.riviws.constants.Constants.NIGHT_LIFE;
-import static com.hipromarketing.riviws.constants.Constants.PLACES;
-import static com.hipromarketing.riviws.constants.Constants.PUBLIC_INST;
-import static com.hipromarketing.riviws.constants.Constants.REAL_ESTATE;
 import static com.hipromarketing.riviws.constants.Constants.RECYCLER_LOAD_TIME;
-import static com.hipromarketing.riviws.constants.Constants.RELIGION;
-import static com.hipromarketing.riviws.constants.Constants.RESTAURANTS;
-import static com.hipromarketing.riviws.constants.Constants.SHOPPING;
 import static com.hipromarketing.riviws.constants.Constants.SHOW_BANNER;
-import static com.hipromarketing.riviws.constants.Constants.TRAVELS;
-import static com.hipromarketing.riviws.constants.Constants.TRIPS;
+import static com.hipromarketing.riviws.constants.Constants.getCategories;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,10 +43,8 @@ public class Home extends Fragment {
     private SliderLayout slides;
     private RequestOptions requestOptions;
     private RelativeLayout banner;
-    long cacheExpiration = 0;
-    AppCompatButton suggest;
-    FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
-    UICreator uiCreator;
+    private FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.getInstance();
+    private UICreator uiCreator;
 
     public static Home newInstance() {
 
@@ -110,7 +79,7 @@ public class Home extends Fragment {
         categoriesList = view.findViewById(R.id.categories);
         progressBar = view.findViewById(R.id.progress);
         banner = view.findViewById(R.id.banner);
-        suggest = view.findViewById(R.id.suggest);
+        AppCompatButton suggest = view.findViewById(R.id.suggest);
 
         uiCreator = UICreator.getInstance((AppCompatActivity) getActivity());
         uiCreator.setFRAG(R.id.homeContainer);
@@ -135,34 +104,6 @@ public class Home extends Fragment {
         });
 
 
-        final List<Category> categories = new ArrayList<>();
-
-        categories.add(new Category(HOTELS, R.drawable.room));
-        categories.add(new Category(RESTAURANTS, R.drawable.food));
-        categories.add(new Category(FASHION, R.drawable.shoe_shirt));
-        categories.add(new Category(HEALTH, R.drawable.drugs));
-        categories.add(new Category(NETWORK, R.drawable.lady_phone));
-        categories.add(new Category(TRIPS, R.drawable.landscape));
-        categories.add(new Category(EDUCATION, R.drawable.student_boy));
-        categories.add(new Category(AUTO_MOBILE, R.drawable.whitecar));
-        categories.add(new Category(TRAVELS, R.drawable.bridge));
-        categories.add(new Category(COSMETICS, R.drawable.cosmetics));
-        categories.add(new Category(FOOD_AND_DRINK, R.drawable.food_and_drinks));
-        categories.add(new Category(NIGHT_LIFE, R.drawable.night_life));
-        categories.add(new Category(SHOPPING, R.drawable.shopping));
-        categories.add(new Category(HEALTH_AND_MEDICAL, R.drawable.health_and_medical));
-        categories.add(new Category(BEAUTY_AND_SPA, R.drawable.beauty_and_spa));
-        categories.add(new Category(HOME_AND_SERVICES, R.drawable.home_and_services));
-        categories.add(new Category(LOCAL_JOINT, R.drawable.local_joint));
-        categories.add(new Category(LOCAL_SERVICES, R.drawable.local_business));
-        categories.add(new Category(ENTERTAINMENT, R.drawable.entertainment));
-        categories.add(new Category(REAL_ESTATE, R.drawable.real_estate));
-        categories.add(new Category(FINANCIAL_SERVICE, R.drawable.financial_service));
-        categories.add(new Category(PUBLIC_INST, R.drawable.public_institution));
-        categories.add(new Category(MASS_MEDIA, R.drawable.mass_media));
-        categories.add(new Category(RELIGION, R.drawable.spirituality));
-        categories.add(new Category(BARS, R.drawable.bars));
-        categories.add(new Category(PLACES, R.drawable.places));
 
 
 
@@ -171,7 +112,7 @@ public class Home extends Fragment {
             @Override
             public void run() {
                 categoriesList.setLayoutManager(new GridLayoutManager(getContext(), 3));
-                categoriesList.setAdapter(new CategoriesAdapter(categories, getContext(), (AppCompatActivity) getActivity()));
+                categoriesList.setAdapter(new CategoriesAdapter(getCategories(), getContext(), (AppCompatActivity) getActivity()));
                 categoriesList.setHasFixedSize(true);
                 categoriesList.setItemViewCacheSize(9);
                 categoriesList.setDrawingCacheEnabled(true);

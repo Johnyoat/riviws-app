@@ -17,8 +17,11 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.hipromarketing.riviws.MainActivity;
 import com.hipromarketing.riviws.R;
+import com.hipromarketing.riviws.adapters.FollowingAdapter;
+import com.hipromarketing.riviws.models.Follow;
 import com.hipromarketing.riviws.models.Statistics;
 import com.hipromarketing.riviws.models.User;
 import com.hipromarketing.riviws.utils.UICreator;
@@ -44,6 +47,7 @@ public class Account extends DialogFragment {
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private ListenerRegistration listenerRegistration;
+    private ListenerRegistration listenerRegistrationFollows;
     private User fireUser;
     private AppCompatTextView reviews;
     private AppCompatTextView location;
@@ -164,13 +168,21 @@ public class Account extends DialogFragment {
                         Glide.with(getContext()).load(fireUser.getProfilePhotoUrl()).into(profileImage);
                         hideViewIfTextIsEmpty(fireUser.getLocation(),location);
                         hideViewIfTextIsEmpty(fireUser.getOccupation(),occupation);
-                        followings.setText(String.valueOf(fireUser.getFollowing().size()));
+
                     }
                 }
             }
         });
 
+        listenerRegistrationFollows = db.collection("users").document(user.getUid()).collection("following").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                if (queryDocumentSnapshots != null) {
+                    followings.setText(String.valueOf(queryDocumentSnapshots.size()));
+                }
 
+            }
+        });
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,5 +233,6 @@ public class Account extends DialogFragment {
     public void onDestroy() {
         super.onDestroy();
         listenerRegistration.remove();
+        listenerRegistrationFollows.remove();
     }
 }

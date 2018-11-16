@@ -16,7 +16,19 @@ public class User implements Parcelable {
     private String profilePhotoUrl="";
     private String location="";
     private String occupation="";
-    private List<String> following = new ArrayList<>();
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
 
     public User(FirebaseUser user) {
         this.userName = user.getDisplayName();
@@ -47,25 +59,8 @@ public class User implements Parcelable {
         occupation = in.readString();
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
-    public List<String> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<String> following) {
-        this.following = following;
-    }
 
     public String getUid() {
         return uid;

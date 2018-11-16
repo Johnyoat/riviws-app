@@ -16,12 +16,16 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_gravity="center"
-       android:layout_marginTop="-30dp">
+       android:layout_marginTop="-30dp"
+
+       android:layout_marginBottom="50dp">
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:orientation="vertical"
-           android:gravity="center">
+           android:gravity="center"
+
+           >
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
@@ -62,7 +66,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="loading"
-                       android:textColor="#999999"
+                       android:textColor="#424242"
                        android:textSize="14sp"/>
 
                    <androidx.appcompat.widget.AppCompatTextView
@@ -70,7 +74,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:text="loading"
-                       android:textColor="#999999"
+                       android:textColor="#424242"
                        android:textSize="12sp" />
                </LinearLayout>
            </LinearLayout>
