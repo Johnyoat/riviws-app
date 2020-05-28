@@ -147,27 +147,6 @@ public class Trending extends DialogFragment {
                 });
 
 
-//        search.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (charSequence != null & adapter != null) {
-//                    adapter.getFilter().filter(charSequence);
-//                }
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                if (charSequence != null & adapter != null) {
-//                    adapter.getFilter().filter(charSequence);
-//                }
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
-
         search.setKeyListener(null);
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -186,12 +165,6 @@ public class Trending extends DialogFragment {
             }
         });
 
-//        search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UICreator.getInstance((AppCompatActivity) getActivity()).createDialog(CompanySearch.newInstance(),"compSearch");
-//            }
-//        });
     }
 
     private void populateTrendList(final List<Trend> trends) {
@@ -208,8 +181,8 @@ public class Trending extends DialogFragment {
         }, RECYCLER_LOAD_TIME);
     }
 
-    private void bottomNavigationVisibilityControl(int gone) {
-        btnNav.setVisibility(gone);
+    private void bottomNavigationVisibilityControl(int visibilityState) {
+        btnNav.setVisibility(visibilityState);
     }
 
     private void queryListener(Query query) {

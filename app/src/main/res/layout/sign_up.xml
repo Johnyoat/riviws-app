@@ -105,7 +105,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="32dp"
                 android:gravity="center"
-                android:text="@string/by_tapping_login_you_agree_to_our_nterms_and_privacy_policy"
+                android:text="@string/sign_up_policy"
                 android:textSize="13sp" />
 
 

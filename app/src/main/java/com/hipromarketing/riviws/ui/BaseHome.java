@@ -2,27 +2,34 @@ package com.hipromarketing.riviws.ui;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.hipromarketing.riviws.R;
@@ -52,7 +59,11 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
     GoogleApiClient mGoogleApiClient;
     Glide glide;
     View foobar;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseAuth.AuthStateListener listener;
     EventBus eventBus = EventBus.getDefault();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private LinearLayout verificationBanner;
 
 
     @Override
@@ -79,22 +90,77 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         checkPermission();
+        AppCompatButton verifiy = findViewById(R.id.verify);
         logo = findViewById(R.id.logo);
         uiCreator = UICreator.getInstance(this);
         uiCreator.setFRAG(R.id.homeContainer);
-//        uiCreator.createFragment(Home.newInstance(), "home");
+        verificationBanner = findViewById(R.id.verificationBanner);
         uiCreator.createFragment(WelcomeHost.newInstance(), "home");
+
+        verificationBanner.setVisibility(View.GONE);
 
         bnv = findViewById(R.id.btnNav);
         bnv.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//      Notifications.getInstance(this).createNotification("Riviws","Some one liked your post");
 
 
         showWelcomeScreen();
-        // ATTENTION: This was auto-generated to handle app links.
-//        Intent appLinkIntent = getIntent();
-//        String appLinkAction = appLinkIntent.getAction();
-//        Uri appLinkData = appLinkIntent.getData();
+
+
+        // Use the Builder class for convenient dialog construction
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.
+                setTitle("Action Required")
+                .setMessage(R.string.acc_verification_message)
+                .setPositiveButton(R.string.verifiy, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        System.out.println("-------------------------" + user.getEmail() + "-------------------------");
+                        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+
+        final AlertDialog alertDialog = builder.create();
+
+        verifiy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                user.reload();
+//                if (!user.isEmailVerified()) {
+//                    alertDialog.show();
+//                }
+
+                UICreator.getInstance(BaseHome.this).createDialog(PrivacyPolicy.newInstance(),"privacy");
+            }
+        });
+
+        System.out.println("-------------------" + user.getProviderId() + "----------------------------------");
+
+        listener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser u = firebaseAuth.getCurrentUser();
+                if (u != null) {
+                    if (!u.isEmailVerified()){
+                        u.sendEmailVerification();
+                    }
+                }
+            }
+        };
+
     }
 
 
@@ -141,12 +207,10 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
     }
 
     private void blueLogo() {
-//        logo.setImageDrawable(getDrawable(R.drawable.blue_logo));
         Glide.with(getApplicationContext()).load(R.drawable.blue_logo).into(logo);
     }
 
     private void whiteLogo() {
-//        logo.setImageDrawable(getDrawable(R.drawable.white_logo));
         Glide.with(getApplicationContext()).load(R.drawable.white_logo).into(logo);
 
     }
@@ -174,8 +238,6 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
             final boolean fromNotification = extras.getBoolean(NOTIFICATION);
             if (fromNotification) {
                 UICreator.getInstance(this).createDialog(NotificationPage.newInstance(), "notification");
-//                bnv.setSelectedItemId(R.id.account);
-//                EventBus.getDefault().post(new Message(NOTIFICATION));
             }
 
         }
@@ -203,6 +265,9 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
     }
 
     private void createHomeFragment() {
+        if (!user.isEmailVerified()) {
+            verificationBanner.setVisibility(View.VISIBLE);
+        }
         uiCreator.createFragment(Home.newInstance(), "home");
         bnv.setVisibility(View.VISIBLE);
         foobar.setVisibility(View.VISIBLE);
@@ -215,8 +280,8 @@ public class BaseHome extends AppCompatActivity implements PermissionListener, G
 
     @SuppressWarnings("all")
     @Subscribe
-    public void callHome(Message message){
-        if (message != null && message.getMsg().equalsIgnoreCase("callHome")){
+    public void callHome(Message message) {
+        if (message != null && message.getMsg().equalsIgnoreCase("callHome")) {
             createHomeFragment();
         }
     }

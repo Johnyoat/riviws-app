@@ -7,6 +7,7 @@
     <string name="create_account">Create Account</string>
     <string name="log_in_with">Log In with</string>
     <string name="by_tapping_login_you_agree_to_our_nterms_and_privacy_policy">By tapping login you agree to our  terms and privacy policy</string>
+    <string name="sign_up_policy">By tapping sign up you agree to our  terms and privacy policy</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="first_name">First Name</string>
@@ -26,6 +27,7 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="facebook_app_id">175938109961016</string>
     <string name="fb_login_protocol_scheme">fb175938109961016</string>
+
 
     <string name="home_text">
         We will be posting videos on products,\nbrands and local businesses we review.\nHave any business in mind?

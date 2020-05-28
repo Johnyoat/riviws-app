@@ -84,18 +84,19 @@ public class AuthHelper {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
-
-                            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener() {
+                            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(context, "Verification email sent to " + auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Log.e(TAG, "sendEmailVerification", task.getException());
-                                        Toast.makeText(context, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
-                                    }
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(context, "Verification email sent to " + auth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.e(TAG, "sendEmailVerification", e);
+                                    Toast.makeText(context, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
                                 }
                             });
+
                             UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
                                     .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/riviwsapp.appspot.com/o/otherimages%2Fuser-2.png?alt=media&token=f3265050-1601-402d-9018-b2b1a1e31415"))

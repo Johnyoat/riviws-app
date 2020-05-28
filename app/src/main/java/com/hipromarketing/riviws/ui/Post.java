@@ -2,7 +2,6 @@ package com.hipromarketing.riviws.ui;
 
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,11 +9,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -51,7 +47,6 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hipromarketing.riviws.R;
-import com.hipromarketing.riviws.models.Category;
 import com.hipromarketing.riviws.models.Trend;
 import com.hipromarketing.riviws.utils.UICreator;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -64,36 +59,11 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventList
 import java.io.File;
 
 import static android.app.Activity.RESULT_OK;
-import static com.hipromarketing.riviws.constants.Constants.AUTO_MOBILE;
-import static com.hipromarketing.riviws.constants.Constants.BARS;
-import static com.hipromarketing.riviws.constants.Constants.BEAUTY_AND_SPA;
 import static com.hipromarketing.riviws.constants.Constants.COMPANY;
-import static com.hipromarketing.riviws.constants.Constants.COSMETICS;
 import static com.hipromarketing.riviws.constants.Constants.DEFAULT;
-import static com.hipromarketing.riviws.constants.Constants.EDUCATION;
-import static com.hipromarketing.riviws.constants.Constants.ENTERTAINMENT;
-import static com.hipromarketing.riviws.constants.Constants.FASHION;
-import static com.hipromarketing.riviws.constants.Constants.FINANCIAL_SERVICE;
-import static com.hipromarketing.riviws.constants.Constants.FOOD_AND_DRINK;
-import static com.hipromarketing.riviws.constants.Constants.HEALTH;
-import static com.hipromarketing.riviws.constants.Constants.HEALTH_AND_MEDICAL;
-import static com.hipromarketing.riviws.constants.Constants.HOME_AND_SERVICES;
-import static com.hipromarketing.riviws.constants.Constants.HOTELS;
-import static com.hipromarketing.riviws.constants.Constants.LOCAL_JOINT;
-import static com.hipromarketing.riviws.constants.Constants.LOCAL_SERVICES;
-import static com.hipromarketing.riviws.constants.Constants.MASS_MEDIA;
-import static com.hipromarketing.riviws.constants.Constants.NETWORK;
-import static com.hipromarketing.riviws.constants.Constants.NIGHT_LIFE;
-import static com.hipromarketing.riviws.constants.Constants.PLACES;
 import static com.hipromarketing.riviws.constants.Constants.PRODUCT;
-import static com.hipromarketing.riviws.constants.Constants.PUBLIC_INST;
-import static com.hipromarketing.riviws.constants.Constants.REAL_ESTATE;
-import static com.hipromarketing.riviws.constants.Constants.RELIGION;
-import static com.hipromarketing.riviws.constants.Constants.RESTAURANTS;
 import static com.hipromarketing.riviws.constants.Constants.REVIEW_DEFAULT;
-import static com.hipromarketing.riviws.constants.Constants.SHOPPING;
-import static com.hipromarketing.riviws.constants.Constants.TRAVELS;
-import static com.hipromarketing.riviws.constants.Constants.TRIPS;
+import static com.hipromarketing.riviws.constants.Constants.getCategoryList;
 import static com.hipromarketing.riviws.constants.Constants.getUser;
 import static com.hipromarketing.riviws.constants.Constants.setLocation;
 
@@ -184,40 +154,7 @@ public class Post extends Fragment implements GoogleApiClient.OnConnectionFailed
 //        company.setKeyListener(null);
 
 
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.
-                setTitle("Action Required")
-                .setMessage(R.string.acc_verification_message)
-                .setPositiveButton(R.string.verifiy, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        user.sendEmailVerification().addOnCompleteListener(getActivity(), new OnCompleteListener() {
-                            @Override
-                            public void onComplete(@NonNull Task task) {
-                                // Re-enable button
 
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getContext(),
-                                            "Verification email sent to " + user.getEmail(),
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Log.e(TAG, "sendEmailVerification", task.getException());
-                                    Toast.makeText(getContext(),
-                                            "Failed to send verification email.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-
-        final AlertDialog alertDialog = builder.create();
 
 
         company.setOnClickListener(new View.OnClickListener() {
@@ -256,23 +193,7 @@ public class Post extends Fragment implements GoogleApiClient.OnConnectionFailed
 
         categories = view.findViewById(R.id.spinner);
 
-        categories.setItems(DEFAULT, HOTELS, RESTAURANTS, FASHION, HEALTH, NETWORK, TRIPS, EDUCATION, AUTO_MOBILE, TRAVELS, COSMETICS
-                , FOOD_AND_DRINK
-                , NIGHT_LIFE
-                , SHOPPING
-                , HEALTH_AND_MEDICAL
-                , BEAUTY_AND_SPA
-                , HOME_AND_SERVICES
-                , LOCAL_JOINT
-                , LOCAL_SERVICES
-                , ENTERTAINMENT
-                , REAL_ESTATE
-                , FINANCIAL_SERVICE
-                , PUBLIC_INST
-                , MASS_MEDIA
-                , RELIGION
-                , BARS
-                , PLACES);
+        categories.setItems(getCategoryList());
 
         categories.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
@@ -425,8 +346,6 @@ public class Post extends Fragment implements GoogleApiClient.OnConnectionFailed
                         }
 
                     }
-                } else {
-                    alertDialog.show();
                 }
             }
         });
